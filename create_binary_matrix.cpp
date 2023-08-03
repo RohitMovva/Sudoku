@@ -5,7 +5,7 @@
 #include <random>
 #include <unordered_map>
 using namespace std;
-
+ 
 struct LinkedListNode {
     int val, row;
     LinkedListNode* right;
