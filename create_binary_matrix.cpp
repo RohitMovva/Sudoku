@@ -109,7 +109,12 @@ LinkedListNode* get_matrix(int size){
 template <typename T>
 
 bool solve(LinkedListNode* head, vector<LinkedListNode*>& solution, int size, T rng, int& solutions){ // vector<int>
-    if (!head || !head->right) return true;
+    // cout << head->right << " " << head->right->right << head->right->right->right << "\n";
+    cout << "socker! ";
+    if (!head || !head->right) {
+        cout << "gdone!\n";
+        return true;
+    }
     int min = INT32_MAX;
     LinkedListNode* currcol;
     LinkedListNode* iter = head->right;
@@ -121,10 +126,13 @@ bool solve(LinkedListNode* head, vector<LinkedListNode*>& solution, int size, T 
         }
         iter = iter->right;
     }
+    cout << "2 ";
     if (min == 0){
+        cout << "bdone!\n";
         return false;
     } else if (min == INT32_MAX){
         solutions++;
+        cout << "gdone!\n";
         return true;
     }
     iter = currcol->down;
@@ -134,6 +142,7 @@ bool solve(LinkedListNode* head, vector<LinkedListNode*>& solution, int size, T 
         iter = iter->down;
     }
     shuffle(vals.begin(), vals.end(), rng);
+    cout << "3 ";
     for (auto& i: vals){
         iter = i;
         solution.push_back(i);
@@ -150,6 +159,7 @@ bool solve(LinkedListNode* head, vector<LinkedListNode*>& solution, int size, T 
                 for (int j = deleted.size()-1; j >= 0; j--){
                     relink(deleted[j]);
                 }
+                cout << "gdone!\n";
                 return true;
             }
         }
@@ -164,35 +174,30 @@ bool solve(LinkedListNode* head, vector<LinkedListNode*>& solution, int size, T 
 template <typename T>
 
 vector<LinkedListNode*> puzzlify(LinkedListNode* head, vector<LinkedListNode*> scrambled, int size, T rng){
-    vector<int> ans_nodes;
     for (auto& i: scrambled){
-        // ans_nodes.push_back(i);
+        cout << "iter" << "\n";
         LinkedListNode* temp = scrambled.back();
         scrambled.pop_back();
         if (!remove_selected_nodes(head, scrambled, size, rng)){
-            // ans_nodes.pop_back();
-            scrambled.push_back(temp);
-            return scrambled;
+            if (scrambled.size() > 30){
+                scrambled.insert(scrambled.begin(), temp);
+            } else {
+                scrambled.push_back(temp);
+                return scrambled;
+            }
         }
     }
     return scrambled;
-    // return ans_nodes;
 }
 
 template<typename T>
 
 bool remove_selected_nodes(LinkedListNode* head, vector<LinkedListNode*> nodes, int size, T rng){
-    // sort(nodes.begin(), nodes.end(), greater<int>());
+    cout << "chocker\n";
     vector<LinkedListNode*> deleted;
-    // vector<LinkedListNode*> todelete;
-    // for (int i = 0; i < nodes.size(); i++){
-    //     LinkedListNode *iter = head->right;
-    //     for (int j = 0; j < nodes[i]; j++){
-    //         iter = iter->down;
-    //     }
-    //     todelete.push_back(iter);
-    // }
+    vector<LinkedListNode*> solution;
     for (auto& i: nodes){
+        solution.push_back(i);
         LinkedListNode* rowiter = i;
         while (rowiter->right != i){
             unlink(rowiter);
@@ -202,63 +207,45 @@ bool remove_selected_nodes(LinkedListNode* head, vector<LinkedListNode*> nodes, 
         unlink(rowiter);
         deleted.push_back(rowiter);
     }
-    // for (int i = 0; i < nodes.size(); i++){
-    //     LinkedListNode* rowiter, *iter = head->right;
-    //     for (int j = 0; j < nodes[i]; j++){
-    //         iter = iter->down;
-    //     }
-    //     // iter = i;
-    //     // solution.push_back(i->row);
-    //     rowiter = iter;
-    //     while (rowiter->right != iter){
-    //         unlink(rowiter);
-    //         deleted.push_back(rowiter);
-    //         rowiter = rowiter->right;
-    //     }
-    //     unlink(rowiter);
-    //     deleted.push_back(rowiter);
-    //     // for (int j = deleted.size()-1; j >= 0; j--){
-    //     //     relink(deleted[j]);
-            
-    //     // }
-    //     // solution.pop_back();
-    // }
-    vector<LinkedListNode*> solution;
+    
     int solutions = 0;
     if (solve(head, solution, size, rng, solutions)){
         if (solutions >= 2){
-            for (auto& i: deleted){
-                relink(i);
+            for (int i = deleted.size()-1; i >= 0; i--){
+                relink(deleted[i]);
             }
             return false;
         }
     }
-    for (auto& i: deleted){
-        relink(i);
+    // for (auto& i: deleted){
+    //     relink(i);
+    // }
+    for (int i = deleted.size()-1; i >= 0; i--){
+        relink(deleted[i]);
     }
     return true;
 }
 
-vector<int> uniform_distribution(vector<vector<int>> board, int size){
-    vector<int> col_constraints(size);
-    vector<int> curr_constrains = col_constraints;
-    iota(col_constraints.begin(), col_constraints.end(), 1);
-    for (int i = 0; i < size; i++){
-        int choice = rand() % curr_constrains.size();
-        // choice = size*(choice/size);
-        int num = curr_constrains[choice];
-        col_constraints.erase(find(col_constraints.begin(), col_constraints.end(), choice));
-        choice = choice - choice%size;
-        for (int i = )
-        curr_constrains.erase(find(col_constraints.begin(), col_constraints.end(), choice), find(col_constraints.begin(), col_constraints.end(), choice)+sqrt(size)-1);
-        if (i%(int(sqrt(size))) == 0){
-            curr_constrains = col_constraints;
-        }
-    }
-}
+// vector<int> uniform_distribution(vector<vector<int>> board, int size){
+//     vector<int> col_constraints(size);
+//     vector<int> curr_constrains = col_constraints;
+//     iota(col_constraints.begin(), col_constraints.end(), 1);
+//     for (int i = 0; i < size; i++){
+//         int choice = rand() % curr_constrains.size();
+//         // choice = size*(choice/size);
+//         int num = curr_constrains[choice];
+//         col_constraints.erase(find(col_constraints.begin(), col_constraints.end(), choice));
+//         choice = choice - choice%size;
+//         // for (int i = )
+//         curr_constrains.erase(find(col_constraints.begin(), col_constraints.end(), choice), find(col_constraints.begin(), col_constraints.end(), choice)+sqrt(size)-1);
+//         if (i%(int(sqrt(size))) == 0){
+//             curr_constrains = col_constraints;
+//         }
+//     }
+// }
 
 int main(){
-    int size = 4;
+    int size = 9;
     // cin >> size;
     auto rng = std::mt19937 {std::random_device{}()};
     LinkedListNode* head = get_matrix(size);
@@ -274,6 +261,7 @@ int main(){
         cout << "\n";
     }
     shuffle(ans.begin(), ans.end(), rng);
+    
     // head = get_matrix(size);
 
     ans = puzzlify(head, ans, size, rng);
