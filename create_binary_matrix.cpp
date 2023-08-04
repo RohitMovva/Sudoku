@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <random>
 #include <unordered_map>
+#include <chrono>
 using namespace std;
  
 struct LinkedListNode {
@@ -108,11 +109,8 @@ LinkedListNode* get_matrix(int size){
 
 template <typename T>
 
-bool solve(LinkedListNode* head, vector<LinkedListNode*>& solution, int size, T rng, int& solutions){ // vector<int>
-    // cout << head->right << " " << head->right->right << head->right->right->right << "\n";
-    cout << "socker! ";
+bool solve(LinkedListNode* head, vector<LinkedListNode*>& solution, int size, T rng, int& solutions){
     if (!head || !head->right) {
-        cout << "gdone!\n";
         return true;
     }
     int min = INT32_MAX;
@@ -126,13 +124,10 @@ bool solve(LinkedListNode* head, vector<LinkedListNode*>& solution, int size, T 
         }
         iter = iter->right;
     }
-    cout << "2 ";
     if (min == 0){
-        cout << "bdone!\n";
         return false;
     } else if (min == INT32_MAX){
         solutions++;
-        cout << "gdone!\n";
         return true;
     }
     iter = currcol->down;
@@ -142,7 +137,6 @@ bool solve(LinkedListNode* head, vector<LinkedListNode*>& solution, int size, T 
         iter = iter->down;
     }
     shuffle(vals.begin(), vals.end(), rng);
-    cout << "3 ";
     for (auto& i: vals){
         iter = i;
         solution.push_back(i);
@@ -159,7 +153,6 @@ bool solve(LinkedListNode* head, vector<LinkedListNode*>& solution, int size, T 
                 for (int j = deleted.size()-1; j >= 0; j--){
                     relink(deleted[j]);
                 }
-                cout << "gdone!\n";
                 return true;
             }
         }
@@ -175,7 +168,6 @@ template <typename T>
 
 vector<LinkedListNode*> puzzlify(LinkedListNode* head, vector<LinkedListNode*> scrambled, int size, T rng){
     for (auto& i: scrambled){
-        cout << "iter" << "\n";
         LinkedListNode* temp = scrambled.back();
         scrambled.pop_back();
         if (!remove_selected_nodes(head, scrambled, size, rng)){
@@ -193,7 +185,6 @@ vector<LinkedListNode*> puzzlify(LinkedListNode* head, vector<LinkedListNode*> s
 template<typename T>
 
 bool remove_selected_nodes(LinkedListNode* head, vector<LinkedListNode*> nodes, int size, T rng){
-    cout << "chocker\n";
     vector<LinkedListNode*> deleted;
     vector<LinkedListNode*> solution;
     for (auto& i: nodes){
@@ -217,64 +208,40 @@ bool remove_selected_nodes(LinkedListNode* head, vector<LinkedListNode*> nodes, 
             return false;
         }
     }
-    // for (auto& i: deleted){
-    //     relink(i);
-    // }
     for (int i = deleted.size()-1; i >= 0; i--){
         relink(deleted[i]);
     }
     return true;
 }
 
-// vector<int> uniform_distribution(vector<vector<int>> board, int size){
-//     vector<int> col_constraints(size);
-//     vector<int> curr_constrains = col_constraints;
-//     iota(col_constraints.begin(), col_constraints.end(), 1);
-//     for (int i = 0; i < size; i++){
-//         int choice = rand() % curr_constrains.size();
-//         // choice = size*(choice/size);
-//         int num = curr_constrains[choice];
-//         col_constraints.erase(find(col_constraints.begin(), col_constraints.end(), choice));
-//         choice = choice - choice%size;
-//         // for (int i = )
-//         curr_constrains.erase(find(col_constraints.begin(), col_constraints.end(), choice), find(col_constraints.begin(), col_constraints.end(), choice)+sqrt(size)-1);
-//         if (i%(int(sqrt(size))) == 0){
-//             curr_constrains = col_constraints;
-//         }
-//     }
-// }
-
 int main(){
+    auto start = chrono::high_resolution_clock::now();
     int size = 9;
-    // cin >> size;
     auto rng = std::mt19937 {std::random_device{}()};
     LinkedListNode* head = get_matrix(size);
     vector<LinkedListNode*> ans;
     int solutions;
-    bool a = solve(head, ans, size, rng, solutions); // LinkedListNode* iter, *bad_node
-    sort(ans.begin(), ans.end());
-    cout << ans.size() << " sizeof\n";
-    for (int i = 0; i < size; i++){
-        for (int j = 0; j < size; j++){
-            cout << (ans[size*i+j]->row-1)%size + 1 << " ";
-        }
-        cout << "\n";
-    }
+    bool a = solve(head, ans, size, rng, solutions);
+    // sort(ans.begin(), ans.end());
+    // for (int i = 0; i < size; i++){
+    //     for (int j = 0; j < size; j++){
+    //         cout << (ans[size*i+j]->row-1)%size + 1 << " ";
+    //     }
+    //     cout << "\n";
+    // }
     shuffle(ans.begin(), ans.end(), rng);
-    
-    // head = get_matrix(size);
-
     ans = puzzlify(head, ans, size, rng);
     sort(ans.begin(), ans.end());
-    cout << ans.size() << " sizeof\n";
     vector<int> finans;
     for (auto& i: ans){
         finans.push_back(i->row);
     }
+    auto end = chrono::high_resolution_clock::now();
+    auto duration = chrono::duration_cast<chrono::milliseconds>(end - start);
+    cout << "\n\n" << ans.size() << "\n\n";
     sort(finans.begin(), finans.end(), greater<int>());
     for (int i = 0; i < size; i++){
         for (int j = 0; j < size; j++){
-            // cout << finans.back() << " " << finans.back()/size << " " << i*size+j << "\n";
             if (!finans.empty() && (finans.back()-1)/size == i*size+j){
                 cout << (finans.back()-1)%size+1 << " ";
                 finans.pop_back();
@@ -284,17 +251,5 @@ int main(){
         }
         cout << "\n";
     }
-    // for (int i = 0; i < size*size; i++){
-    //     // cout << finans.back() << " " << (finans.back()-1)/size << "\n";
-    //     if (i%size == 0){
-    //         cout << "\n";
-    //     }
-    //     if (i == (finans.back()-1)/size){
-    //         cout << (finans.back()-1)%size+1 << " "; // %size + 1
-    //         finans.pop_back();
-    //     } else {
-    //         cout << "0 ";
-    //     }
-    // }
-    // cout << "\n";
+    cout << "Took " << duration.count() << " milliseconds to execute\n";
 }
