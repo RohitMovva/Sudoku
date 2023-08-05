@@ -214,6 +214,71 @@ bool remove_selected_nodes(LinkedListNode* head, vector<LinkedListNode*> nodes, 
     return true;
 }
 
+void pretty_print(vector<vector<int>> board, int size){
+    for (int i = 0; i < board.size(); i++){
+        if ((i)%(int(sqrt(size))) == 0){
+            for (int j = 0; j < size; j++){
+                if (j == 0){
+                    if (i == 0){
+                        cout << "┌--";
+                    } else {
+                        cout << "├--";
+                    }
+                } else if (j == size-1){
+                    if (i == 0){
+                        cout << "-┐";
+                    } else {
+                        cout << "-┤";
+                    }
+                }
+                else if ((j+1)%(int(sqrt(size))) == 0){
+                    if (i == 0){
+                        cout << "-┬";
+                    }
+                    else {
+                        cout << "-+";
+                    }
+                } else {
+                    cout << "--";
+                }
+            }
+            cout << "\n";
+        }
+        for (int j = 0; j < board[i].size(); j++){
+            if (j == 0){
+                cout << "|";
+            }
+            if (board[i][j] == 0){
+                cout << " ";
+            }
+            else {
+                cout << board[i][j];
+            }
+            if ((j+1)%(int(sqrt(size))) == 0){
+                cout << "|";
+            } else {
+                cout << " ";
+            }
+        }
+        cout << "\n";
+    }
+    for (int i = 0; i < size; i++){
+        // cout << ((i+1)%size) << " ASDF\n";
+        if (i == 0){
+            cout << "└-";
+        }
+        else if (i == size-1){
+            cout << "--┘";
+        } 
+        else if ((i)%int(sqrt(size)) == 0){
+            cout << "┴-";
+        } else {
+            cout << "--";
+        }
+    }
+    cout << "\n";
+}
+
 int main(){
     auto start = chrono::high_resolution_clock::now();
     int size = 9;
@@ -222,13 +287,6 @@ int main(){
     vector<LinkedListNode*> ans;
     int solutions;
     bool a = solve(head, ans, size, rng, solutions);
-    // sort(ans.begin(), ans.end());
-    // for (int i = 0; i < size; i++){
-    //     for (int j = 0; j < size; j++){
-    //         cout << (ans[size*i+j]->row-1)%size + 1 << " ";
-    //     }
-    //     cout << "\n";
-    // }
     shuffle(ans.begin(), ans.end(), rng);
     ans = puzzlify(head, ans, size, rng);
     sort(ans.begin(), ans.end());
@@ -239,17 +297,24 @@ int main(){
     auto end = chrono::high_resolution_clock::now();
     auto duration = chrono::duration_cast<chrono::milliseconds>(end - start);
     cout << "\n\n" << ans.size() << "\n\n";
+    vector<vector<int>> puzzle(size, vector<int>(size, 0));
     sort(finans.begin(), finans.end(), greater<int>());
-    for (int i = 0; i < size; i++){
-        for (int j = 0; j < size; j++){
-            if (!finans.empty() && (finans.back()-1)/size == i*size+j){
-                cout << (finans.back()-1)%size+1 << " ";
-                finans.pop_back();
-            } else {
-                cout << "0 ";
-            }
-        }
-        cout << "\n";
+    for (auto& i: finans){
+        puzzle[(((i-1)/size)/size)][(((i-1)/size))%size] = (i-1)%size+1;
     }
+    // Normal print
+    // for (int i = 0; i < size; i++){
+    //     for (int j = 0; j < size; j++){
+    //         if (!finans.empty() && (finans.back()-1)/size == i*size+j){
+    //             cout << (finans.back()-1)%size+1 << " ";
+    //             finans.pop_back();
+    //         } else {
+    //             cout << "0 ";
+    //         }
+    //     }
+    //     cout << "\n";
+    // }
+    pretty_print(puzzle, size);
     cout << "Took " << duration.count() << " milliseconds to execute\n";
+    return 0;
 }
