@@ -7,23 +7,23 @@
 #include <chrono>
 using namespace std;
  
-struct LinkedListNode {
+struct ListNode {
     int val, row;
-    LinkedListNode* right;
-    LinkedListNode* left;
-    LinkedListNode* down;
-    LinkedListNode* up;
-    LinkedListNode* header;
-    LinkedListNode() : val(1), row(-1), left(nullptr), right(nullptr), up(nullptr), down(nullptr), header(nullptr) {}
-    LinkedListNode(int x, int y) : val(x), row(y), left(nullptr), right(nullptr), up(nullptr), down(nullptr), header(nullptr) {}
+    ListNode* right;
+    ListNode* left;
+    ListNode* down;
+    ListNode* up;
+    ListNode* header;
+    ListNode() : val(1), row(-1), left(nullptr), right(nullptr), up(nullptr), down(nullptr), header(nullptr) {}
+    ListNode(int x, int y) : val(x), row(y), left(nullptr), right(nullptr), up(nullptr), down(nullptr), header(nullptr) {}
 };
-void unlink(LinkedListNode* node){
+void unlink(ListNode* node){
     node = node->header;
     node->left->right = node->right;
     node->right->left = node->left;
-    LinkedListNode* iter = node->down;
+    ListNode* iter = node->down;
     while (iter != node){
-        LinkedListNode* rowiter = iter->right;
+        ListNode* rowiter = iter->right;
         while (rowiter != iter){
             rowiter->up->down = rowiter->down;
             rowiter->down->up = rowiter->up;
@@ -34,11 +34,11 @@ void unlink(LinkedListNode* node){
     }
 }
 
-void relink(LinkedListNode* node){
+void relink(ListNode* node){
     node = node->header;
-    LinkedListNode* iter = node->up;
+    ListNode* iter = node->up;
     while (iter != node){
-        LinkedListNode* rowiter = iter->left;
+        ListNode* rowiter = iter->left;
         while (rowiter != iter){
             rowiter->up->down = rowiter;
             rowiter->down->up = rowiter;
@@ -51,7 +51,7 @@ void relink(LinkedListNode* node){
     node->right->left = node;
 }
 
-LinkedListNode* get_matrix(int size){
+ListNode* get_matrix(int size){
     int rows = size*size*size;
     int cols = 4*size*size;
     int subsect = sqrt(size);
@@ -63,14 +63,14 @@ LinkedListNode* get_matrix(int size){
         matrix[r+1][r%(size*size) + 2*(size*size)] = 1; // columns
         matrix[r+1][r%(size) + size*(r/(size*subsect)%subsect) + subsect*size*(r/(size*size*subsect)) + 3*(size*size)] = 1; // squares
     }
-    LinkedListNode* head = new LinkedListNode(4*size*size, 0);
-    vector<LinkedListNode*> stuff = {};
+    ListNode* head = new ListNode(4*size*size, 0);
+    vector<ListNode*> stuff = {};
     for (int i = 0; i < rows+1; i++){
-        LinkedListNode* temp = nullptr;
+        ListNode* temp = nullptr;
         for (auto& j: matrix[i]){
             if (j == 0) continue;
             if (temp == nullptr){
-                temp = new LinkedListNode(j, i);
+                temp = new ListNode(j, i);
                 stuff.push_back(temp);
                 if (head->right == nullptr){
                     head->right = temp;
@@ -79,7 +79,7 @@ LinkedListNode* get_matrix(int size){
                 }
                 continue;
             }
-            temp->right = new LinkedListNode(j, i);
+            temp->right = new ListNode(j, i);
             temp->right->left = temp;
             temp = temp->right;
         }
@@ -88,9 +88,9 @@ LinkedListNode* get_matrix(int size){
     }
     stuff[0] = stuff[0]->right;
     for (int i = 0; i < cols; i++){
-        LinkedListNode* currhead = stuff[0]; // new LinkedListNode(matrix[0][i])
+        ListNode* currhead = stuff[0]; // new ListNode(matrix[0][i])
         stuff[0] = stuff[0]->right;
-        LinkedListNode* temp = currhead;
+        ListNode* temp = currhead;
         for (int j = 1; j < rows+1; j++){
             if (matrix[j][i] == 0){continue;}
             temp->down = stuff[j];
@@ -109,14 +109,14 @@ LinkedListNode* get_matrix(int size){
 
 template <typename T>
 
-bool solve(LinkedListNode* head, vector<LinkedListNode*>& solution, int size, T rng, int& solutions){
+bool solve(ListNode* head, vector<ListNode*>& solution, int size, T rng, int& solutions){
     if (!head || !head->right) {
         return true;
     }
     int min = INT32_MAX;
-    LinkedListNode* currcol;
-    LinkedListNode* iter = head->right;
-    vector<LinkedListNode*> rows, cols;
+    ListNode* currcol;
+    ListNode* iter = head->right;
+    vector<ListNode*> rows, cols;
     while (iter != head){
         if (iter->val < min){
             min = iter->val;
@@ -131,7 +131,7 @@ bool solve(LinkedListNode* head, vector<LinkedListNode*>& solution, int size, T 
         return true;
     }
     iter = currcol->down;
-    vector<LinkedListNode*> vals = {};
+    vector<ListNode*> vals = {};
     while (iter != currcol){
         vals.push_back(iter);
         iter = iter->down;
@@ -140,7 +140,7 @@ bool solve(LinkedListNode* head, vector<LinkedListNode*>& solution, int size, T 
     for (auto& i: vals){
         iter = i;
         solution.push_back(i);
-        vector<LinkedListNode*> deleted;
+        vector<ListNode*> deleted;
         while (iter->right != i){
             unlink(iter);
             deleted.push_back(iter);
@@ -166,12 +166,12 @@ bool solve(LinkedListNode* head, vector<LinkedListNode*>& solution, int size, T 
 
 template <typename T>
 
-vector<LinkedListNode*> puzzlify(LinkedListNode* head, vector<LinkedListNode*> scrambled, int size, T rng){
+vector<ListNode*> puzzlify(ListNode* head, vector<ListNode*> scrambled, int size, T rng){
     for (auto& i: scrambled){
-        LinkedListNode* temp = scrambled.back();
+        ListNode* temp = scrambled.back();
         scrambled.pop_back();
         if (!remove_selected_nodes(head, scrambled, size, rng)){
-            if (scrambled.size() > 30){
+            if (scrambled.size() > 0){
                 scrambled.insert(scrambled.begin(), temp);
             } else {
                 scrambled.push_back(temp);
@@ -184,12 +184,12 @@ vector<LinkedListNode*> puzzlify(LinkedListNode* head, vector<LinkedListNode*> s
 
 template<typename T>
 
-bool remove_selected_nodes(LinkedListNode* head, vector<LinkedListNode*> nodes, int size, T rng){
-    vector<LinkedListNode*> deleted;
-    vector<LinkedListNode*> solution;
+bool remove_selected_nodes(ListNode* head, vector<ListNode*> nodes, int size, T rng){
+    vector<ListNode*> deleted;
+    vector<ListNode*> solution;
     for (auto& i: nodes){
         solution.push_back(i);
-        LinkedListNode* rowiter = i;
+        ListNode* rowiter = i;
         while (rowiter->right != i){
             unlink(rowiter);
             deleted.push_back(rowiter);
@@ -252,7 +252,11 @@ void pretty_print(vector<vector<int>> board, int size){
                 cout << " ";
             }
             else {
-                cout << board[i][j];
+                if (board[i][j] > 9){
+                    cout << char(board[i][j]+55);
+                } else {
+                    cout << board[i][j];
+                }
             }
             if ((j+1)%(int(sqrt(size))) == 0){
                 cout << "|";
@@ -283,8 +287,8 @@ int main(){
     auto start = chrono::high_resolution_clock::now();
     int size = 9;
     auto rng = std::mt19937 {std::random_device{}()};
-    LinkedListNode* head = get_matrix(size);
-    vector<LinkedListNode*> ans;
+    ListNode* head = get_matrix(size);
+    vector<ListNode*> ans;
     int solutions;
     bool a = solve(head, ans, size, rng, solutions);
     shuffle(ans.begin(), ans.end(), rng);
