@@ -14,8 +14,8 @@ struct ListNode {
     ListNode* down;
     ListNode* up;
     ListNode* header;
-    ListNode() : val(1), row(-1), left(nullptr), right(nullptr), up(nullptr), down(nullptr), header(nullptr) {}
-    ListNode(int x, int y) : val(x), row(y), left(nullptr), right(nullptr), up(nullptr), down(nullptr), header(nullptr) {}
+    ListNode(): val(1), row(-1), left(nullptr), right(nullptr), up(nullptr), down(nullptr), header(nullptr) {}
+    ListNode(int x, int y): val(x), row(y), left(nullptr), right(nullptr), up(nullptr), down(nullptr), header(nullptr) {}
 };
 void unlink(ListNode* node){
     node = node->header;
@@ -166,12 +166,12 @@ bool solve(ListNode* head, vector<ListNode*>& solution, int size, T rng, int& so
 
 template <typename T>
 
-vector<ListNode*> puzzlify(ListNode* head, vector<ListNode*> scrambled, int size, T rng){
+vector<ListNode*> puzzlify(ListNode* head, vector<ListNode*> scrambled, int size, T rng, int difficulty){
     for (auto& i: scrambled){
         ListNode* temp = scrambled.back();
         scrambled.pop_back();
         if (!remove_selected_nodes(head, scrambled, size, rng)){
-            if (scrambled.size() > 0){
+            if (scrambled.size() > difficulty){
                 scrambled.insert(scrambled.begin(), temp);
             } else {
                 scrambled.push_back(temp);
@@ -285,14 +285,14 @@ void pretty_print(vector<vector<int>> board, int size){
 
 int main(){
     auto start = chrono::high_resolution_clock::now();
-    int size = 9;
+    int size = 9, difficulty = 0;
     auto rng = std::mt19937 {std::random_device{}()};
     ListNode* head = get_matrix(size);
     vector<ListNode*> ans;
     int solutions;
     bool a = solve(head, ans, size, rng, solutions);
     shuffle(ans.begin(), ans.end(), rng);
-    ans = puzzlify(head, ans, size, rng);
+    ans = puzzlify(head, ans, size, rng, difficulty);
     sort(ans.begin(), ans.end());
     vector<int> finans;
     for (auto& i: ans){
@@ -304,7 +304,7 @@ int main(){
     vector<vector<int>> puzzle(size, vector<int>(size, 0));
     sort(finans.begin(), finans.end(), greater<int>());
     for (auto& i: finans){
-        puzzle[(((i-1)/size)/size)][(((i-1)/size))%size] = (i-1)%size+1;
+        puzzle[((i-1)/size)/size][((i-1)/size)%size] = (i-1)%size+1;
     }
     // Normal print
     // for (int i = 0; i < size; i++){
