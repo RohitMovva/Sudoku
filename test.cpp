@@ -2,12 +2,12 @@
 #include <vector>
 #include "SudokuSquare.h"
 #include <iostream>
+#include <algorithm>
 using namespace std;
 
 SudokuSquare* selected_square = nullptr;
 
 void setSelectedButton(GtkWidget* tile, gpointer* data, SudokuSquare* clicked_button){
-    cout << "ciao!\n";
     if (clicked_button->isSelected()){
         clicked_button->unselect();
         selected_square = nullptr;
@@ -19,6 +19,20 @@ void setSelectedButton(GtkWidget* tile, gpointer* data, SudokuSquare* clicked_bu
     clicked_button->select();
 }
 
+gboolean onKeyPress (GtkWidget *widget, GdkEventKey *event, gpointer data) {
+    if (event->keyval < 49 || event->keyval > 57){
+        return FALSE;
+    }
+    if (selected_square == nullptr){
+        return FALSE;
+    }
+    char buffer[1];
+    sprintf(buffer, "%d", event->keyval-48);
+    gtk_button_set_label (GTK_BUTTON(selected_square->getButtonWidget()), buffer);
+    return TRUE;
+    // gtk_button_set_label(GTK_BUTTON(selected_square), buffer);
+}
+
 void createSudokuGrid(GtkApplication *app, gpointer user_data){
     GtkWidget *window;
     GtkWidget *button;
@@ -27,10 +41,12 @@ void createSudokuGrid(GtkApplication *app, gpointer user_data){
     GtkWidget *sudoku_grid;
     int size = 9;
     window = gtk_application_window_new(app);
+    gtk_widget_add_events(window, GDK_KEY_PRESS_MASK);
     gtk_window_set_title(GTK_WINDOW(window), "Sudoku");
     sudoku_grid = gtk_grid_new();
     gtk_container_add(GTK_CONTAINER(window), sudoku_grid);
     vector<vector<SudokuSquare*>> board;
+    g_signal_connect (G_OBJECT (window), "key_press_event", G_CALLBACK(onKeyPress), NULL);
     for (int i = 0; i < size; i++){
         board.push_back({});
         for (int j = 0; j < size; j++){
