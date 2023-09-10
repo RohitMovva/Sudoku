@@ -18,7 +18,6 @@ struct var_storage {
 bool isValidMove(vector<vector<int>> board, int size, int y, int x, int user_num){
     int subsqr = sqrt(size);
     for (int i = 0; i < size; i++){
-        cout << subsqr*(y/subsqr)+i/subsqr << " " << subsqr*(x/subsqr)+i%subsqr << "\n\n";
         if (i != y && board[i][x] == user_num){
             return false;
         } else if (i != x && board[y][i] == user_num){
@@ -44,30 +43,27 @@ void setSelectedButton(GtkWidget* tile, gpointer data, SudokuSquare* clicked_but
 
 gboolean onKeyPress(GtkWidget* tile, GdkEventKey *event, gpointer data) {
     // vector<vector<int>> *board = data;
-    vector<vector<int>> board = ((var_storage*)data)->board;
+    vector<vector<int>>* board = &(((var_storage*)data)->board);
     int empty_squares = ((var_storage*)data)->empty_squares;
     if (selected_square == nullptr || selected_square->isHint()){
         return FALSE;
     }
-    cout << selected_square->getX() << " " << selected_square->getY() << "\n";
     if (event->keyval == 65288){
         gtk_button_set_label(GTK_BUTTON(selected_square->getButtonWidget()), "");
-        board[selected_square->getX()][selected_square->getY()] = 0;
+        (*board)[selected_square->getX()][selected_square->getY()] = 0;
         empty_squares--;
     }
     if (event->keyval < 49 || event->keyval > 57){
         return FALSE;
     }
-    if (!isValidMove(board, 9, selected_square->getX(), selected_square->getY(), event->keyval-48)){
-        cout << selected_square->getX() << " " << selected_square->getY() << "\n";
+    if (!isValidMove(*board, 9, selected_square->getX(), selected_square->getY(), event->keyval-48)){
         return FALSE;
     }
-    cout << "passed!\n";
     char buffer[2];
     sprintf(buffer, "%d", event->keyval-48);
     gtk_button_set_label (GTK_BUTTON(selected_square->getButtonWidget()), buffer);
-    board[selected_square->getX()][selected_square->getY()] = event->keyval-48;
-    cout << selected_square->getX() << " " << selected_square->getY() << "\n";
+    (*board)[selected_square->getX()][selected_square->getY()] = event->keyval-48;
+    // cout << selected_square->getX() << " " << selected_square->getY() << "\n";
     empty_squares++;
     return TRUE;
     // gtk_button_set_label(GTK_BUTTON(selected_square), buffer);
@@ -127,6 +123,7 @@ static void activate(GtkApplication *app, gpointer user_data) {
 
 void win(){
     cout << "WIN!\n";
+    // add more to this later
 }
 
 // void on_popup_clicked (GtkButton* button, GtkWidget* pWindow)
