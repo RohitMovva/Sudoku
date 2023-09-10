@@ -1,0 +1,25 @@
+/* when backend guy tries to make stuff look good 😭*/
+
+GtkWindow {
+    background-color: magenta;
+}
+
+button#sudoku_tile { 
+    background-color: #D3D3D3;
+    color: black;
+    font-family: DejaVu Sans;
+    font-style: normal;
+    font-size: 15px;
+}
+
+button#selected_sudoku_tile {
+    background-color: #757575;
+    color: black;
+    font-family: DejaVu Sans;
+    font-style: normal;
+    font-size: 15px;
+}
+
+button#sudoku_tile:hover {
+    background-color: #b3acac;
+}

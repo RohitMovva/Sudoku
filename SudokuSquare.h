@@ -8,13 +8,16 @@ class SudokuSquare{
     GtkWidget* entry_box;
     // SudokuGrid* master;
     bool selected;
-
-    SudokuSquare(GtkWidget *new_entry_box);
+    int start_num, x, y;
+    SudokuSquare(GtkWidget *new_entry_box, int num, int x, int y);
     GtkWidget* getButtonWidget();
     // void onButtonPress();
     void select();
     void unselect();
     bool isSelected();
+    bool isHint();
+    int getX();
+    int getY();
 
 };
 

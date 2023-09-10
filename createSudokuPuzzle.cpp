@@ -5,18 +5,20 @@
 #include <random>
 #include <unordered_map>
 #include <chrono>
+#include "createSudokuPuzzle.h"
 using namespace std;
  
-struct ListNode {
-    int val, row;
-    ListNode* right;
-    ListNode* left;
-    ListNode* down;
-    ListNode* up;
-    ListNode* header;
-    ListNode(): val(1), row(-1), left(nullptr), right(nullptr), up(nullptr), down(nullptr), header(nullptr) {}
-    ListNode(int x, int y): val(x), row(y), left(nullptr), right(nullptr), up(nullptr), down(nullptr), header(nullptr) {}
-};
+// struct ListNode {
+//     int val, row;
+//     ListNode* right;
+//     ListNode* left;
+//     ListNode* down;
+//     ListNode* up;
+//     ListNode* header;
+//     ListNode(): val(1), row(-1), left(nullptr), right(nullptr), up(nullptr), down(nullptr), header(nullptr) {}
+//     ListNode(int x, int y): val(x), row(y), left(nullptr), right(nullptr), up(nullptr), down(nullptr), header(nullptr) {}
+// };
+
 void unlink(ListNode* node){
     node = node->header;
     node->left->right = node->right;
@@ -214,76 +216,76 @@ bool remove_selected_nodes(ListNode* head, vector<ListNode*> nodes, int size, T 
     return true;
 }
 
-void pretty_print(vector<vector<int>> board, int size){
-    for (int i = 0; i < board.size(); i++){
-        if ((i)%(int(sqrt(size))) == 0){
-            for (int j = 0; j < size; j++){
-                if (j == 0){
-                    if (i == 0){
-                        cout << "┌--";
-                    } else {
-                        cout << "├--";
-                    }
-                } else if (j == size-1){
-                    if (i == 0){
-                        cout << "-┐";
-                    } else {
-                        cout << "-┤";
-                    }
-                }
-                else if ((j+1)%(int(sqrt(size))) == 0){
-                    if (i == 0){
-                        cout << "-┬";
-                    }
-                    else {
-                        cout << "-+";
-                    }
-                } else {
-                    cout << "--";
-                }
-            }
-            cout << "\n";
-        }
-        for (int j = 0; j < board[i].size(); j++){
-            if (j == 0){
-                cout << "|";
-            }
-            if (board[i][j] == 0){
-                cout << " ";
-            }
-            else {
-                if (board[i][j] > 9){
-                    cout << char(board[i][j]+55);
-                } else {
-                    cout << board[i][j];
-                }
-            }
-            if ((j+1)%(int(sqrt(size))) == 0){
-                cout << "|";
-            } else {
-                cout << " ";
-            }
-        }
-        cout << "\n";
-    }
-    for (int i = 0; i < size; i++){
-        // cout << ((i+1)%size) << " ASDF\n";
-        if (i == 0){
-            cout << "└-";
-        }
-        else if (i == size-1){
-            cout << "--┘";
-        } 
-        else if ((i)%int(sqrt(size)) == 0){
-            cout << "┴-";
-        } else {
-            cout << "--";
-        }
-    }
-    cout << "\n";
-}
+// void pretty_print(vector<vector<int>> board, int size){
+//     for (int i = 0; i < board.size(); i++){
+//         if ((i)%(int(sqrt(size))) == 0){
+//             for (int j = 0; j < size; j++){
+//                 if (j == 0){
+//                     if (i == 0){
+//                         cout << "┌--";
+//                     } else {
+//                         cout << "├--";
+//                     }
+//                 } else if (j == size-1){
+//                     if (i == 0){
+//                         cout << "-┐";
+//                     } else {
+//                         cout << "-┤";
+//                     }
+//                 }
+//                 else if ((j+1)%(int(sqrt(size))) == 0){
+//                     if (i == 0){
+//                         cout << "-┬";
+//                     }
+//                     else {
+//                         cout << "-+";
+//                     }
+//                 } else {
+//                     cout << "--";
+//                 }
+//             }
+//             cout << "\n";
+//         }
+//         for (int j = 0; j < board[i].size(); j++){
+//             if (j == 0){
+//                 cout << "|";
+//             }
+//             if (board[i][j] == 0){
+//                 cout << " ";
+//             }
+//             else {
+//                 if (board[i][j] > 9){
+//                     cout << char(board[i][j]+55);
+//                 } else {
+//                     cout << board[i][j];
+//                 }
+//             }
+//             if ((j+1)%(int(sqrt(size))) == 0){
+//                 cout << "|";
+//             } else {
+//                 cout << " ";
+//             }
+//         }
+//         cout << "\n";
+//     }
+//     for (int i = 0; i < size; i++){
+//         // cout << ((i+1)%size) << " ASDF\n";
+//         if (i == 0){
+//             cout << "└-";
+//         }
+//         else if (i == size-1){
+//             cout << "--┘";
+//         } 
+//         else if ((i)%int(sqrt(size)) == 0){
+//             cout << "┴-";
+//         } else {
+//             cout << "--";
+//         }
+//     }
+//     cout << "\n";
+// }
 
-int main(){
+vector<vector<int>> get_puzzle(){
     auto start = chrono::high_resolution_clock::now();
     int size = 9, difficulty = 0;
     auto rng = std::mt19937 {std::random_device{}()};
@@ -307,18 +309,66 @@ int main(){
         puzzle[((i-1)/size)/size][((i-1)/size)%size] = (i-1)%size+1;
     }
     // Normal print
+    vector<vector<int>> puzzle_board;
+    for (int i = 0; i < size; i++){
+        puzzle_board.push_back({});
+        for (int j = 0; j < size; j++){
+            if (!finans.empty() && (finans.back()-1)/size == i*size+j){
+                cout << (finans.back()-1)%size+1 << " ";
+                puzzle_board[i].push_back((finans.back()-1)%size+1);
+                finans.pop_back();
+            } else {
+                cout << "0 ";
+                puzzle_board[i].push_back(0);
+            }
+        }
+        cout << "\n";
+    }
+    // pretty_print(puzzle, size);
+    cout << "Took " << duration.count() << " milliseconds to execute\n";
+    return puzzle_board;
+}
+
+// int main(){
+    // auto start = chrono::high_resolution_clock::now();
+    // int size = 9, difficulty = 0;
+    // auto rng = std::mt19937 {std::random_device{}()};
+    // ListNode* head = get_matrix(size);
+    // vector<ListNode*> ans;
+    // int solutions;
+    // bool a = solve(head, ans, size, rng, solutions);
+    // shuffle(ans.begin(), ans.end(), rng);
+    // ans = puzzlify(head, ans, size, rng, difficulty);
+    // sort(ans.begin(), ans.end());
+    // vector<int> finans;
+    // for (auto& i: ans){
+    //     finans.push_back(i->row);
+    // }
+    // auto end = chrono::high_resolution_clock::now();
+    // auto duration = chrono::duration_cast<chrono::milliseconds>(end - start);
+    // cout << "\n\n" << ans.size() << "\n\n";
+    // vector<vector<int>> puzzle(size, vector<int>(size, 0));
+    // sort(finans.begin(), finans.end(), greater<int>());
+    // for (auto& i: finans){
+    //     puzzle[((i-1)/size)/size][((i-1)/size)%size] = (i-1)%size+1;
+    // }
+    // // Normal print
+    // vector<vector<int>> puzzle_board;
     // for (int i = 0; i < size; i++){
+    //     puzzle_board.push_back({});
     //     for (int j = 0; j < size; j++){
     //         if (!finans.empty() && (finans.back()-1)/size == i*size+j){
-    //             cout << (finans.back()-1)%size+1 << " ";
+    //             // cout << (finans.back()-1)%size+1 << " ";
+    //             puzzle_board[i].push_back((finans.back()-1)%size+1);
     //             finans.pop_back();
     //         } else {
-    //             cout << "0 ";
+    //             // cout << "0 ";
+    //             puzzle_board[i].push_back(0);
     //         }
     //     }
-    //     cout << "\n";
+    //     // cout << "\n";
     // }
-    pretty_print(puzzle, size);
-    cout << "Took " << duration.count() << " milliseconds to execute\n";
-    return 0;
-}
+    // // pretty_print(puzzle, size);
+    // cout << "Took " << duration.count() << " milliseconds to execute\n";
+    // return 0;
+// }
