@@ -42,7 +42,6 @@ void setSelectedButton(GtkWidget* tile, gpointer data, SudokuSquare* clicked_but
 }
 
 gboolean onKeyPress(GtkWidget* tile, GdkEventKey *event, gpointer data) {
-    // vector<vector<int>> *board = data;
     vector<vector<int>>* board = &(((var_storage*)data)->board);
     int empty_squares = ((var_storage*)data)->empty_squares;
     if (selected_square == nullptr || selected_square->isHint()){
@@ -63,10 +62,8 @@ gboolean onKeyPress(GtkWidget* tile, GdkEventKey *event, gpointer data) {
     sprintf(buffer, "%d", event->keyval-48);
     gtk_button_set_label (GTK_BUTTON(selected_square->getButtonWidget()), buffer);
     (*board)[selected_square->getX()][selected_square->getY()] = event->keyval-48;
-    // cout << selected_square->getX() << " " << selected_square->getY() << "\n";
     empty_squares++;
     return TRUE;
-    // gtk_button_set_label(GTK_BUTTON(selected_square), buffer);
 }
 
 void createSudokuGrid(GtkApplication *app, gpointer user_data){
@@ -89,7 +86,6 @@ void createSudokuGrid(GtkApplication *app, gpointer user_data){
     gtk_window_set_title(GTK_WINDOW(window), "Sudoku");
     sudoku_grid = gtk_grid_new();
     gtk_container_add(GTK_CONTAINER(window), sudoku_grid);
-    vector<vector<SudokuSquare*>> board;
     g_signal_connect(G_OBJECT(window), "key_press_event", G_CALLBACK(onKeyPress), user_data);
 
 
@@ -97,10 +93,13 @@ void createSudokuGrid(GtkApplication *app, gpointer user_data){
     gtk_css_provider_load_from_path (provider, "mystyle.css", NULL);
 
     for (int i = 0; i < size; i++){
-        board.push_back({});
+        GtkWidget* subgrid = gtk_grid_new();
+        g_object_set(subgrid, "margin", 3, NULL);
+        gtk_grid_attach(GTK_GRID(sudoku_grid), subgrid, i%3, i/3, 1, 1);
         for (int j = 0; j < size; j++){
             entry_box = gtk_button_new_with_label("");
             g_object_set(entry_box, "margin", 1, NULL);
+            // gtk_widget_set_can_focus (entry_box, false);
             SudokuSquare* new_button = new SudokuSquare(entry_box, sudoku_puzzle[i][j], i, j);
             gtk_widget_set_name(entry_box, "sudoku_tile");
             if (sudoku_puzzle[i][j] > 0){
@@ -109,16 +108,15 @@ void createSudokuGrid(GtkApplication *app, gpointer user_data){
                 gtk_button_set_label (GTK_BUTTON(entry_box), buffer);
             }
             g_signal_connect(entry_box, "clicked", G_CALLBACK(setSelectedButton), new_button);
-            board[i].push_back(new_button);
-            gtk_grid_attach(GTK_GRID(sudoku_grid), entry_box, j, i, 1, 1);
-            
+            gtk_grid_attach(GTK_GRID(subgrid), entry_box, j%3, j/3, 1, 1);
         }
     }
+
     gtk_widget_show_all(window);
 }
 
 static void activate(GtkApplication *app, gpointer user_data) {
-    createSudokuGrid(app, user_data); // SudokuGrid* grid = 
+    createSudokuGrid(app, user_data);
 }
 
 void win(){

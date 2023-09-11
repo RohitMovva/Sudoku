@@ -6,6 +6,7 @@ GtkWindow {
 
 button#sudoku_tile { 
     background-color: #D3D3D3;
+    border-radius: 5%;
     color: black;
     font-family: DejaVu Sans;
     font-style: normal;
@@ -14,6 +15,7 @@ button#sudoku_tile {
 
 button#selected_sudoku_tile {
     background-color: #757575;
+    border-radius: 5%;
     color: black;
     font-family: DejaVu Sans;
     font-style: normal;
