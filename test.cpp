@@ -10,8 +10,6 @@ using namespace std;
 SudokuSquare* selected_square = nullptr;
 
 struct var_storage {
-    // vector<vector<int>> board;
-    // int empty_squares;
     int size;
     int difficulty;
     int empty_squares;
@@ -21,13 +19,6 @@ struct var_storage {
     vector<vector<int>> board;
     var_storage(int new_size, int new_difficulty, GtkWidget* new_grid, GtkWidget* new_menu, GtkWidget* new_window, vector<vector<int>> new_board, int empty_tiles):\
      size(new_size), difficulty(difficulty), grid(new_grid), menu(new_menu), window(new_window), board(new_board), empty_squares(empty_tiles){}
-};
-
-struct var_storage_2 {
-    vector<vector<int>> board;
-    int empty_squares;
-    var_storage_2(vector<vector<int>> new_board, int num_empty): board(new_board), empty_squares(num_empty){};
-
 };
 
 void setSelectedButton(GtkWidget* tile, gpointer data, SudokuSquare* clicked_button){
@@ -43,11 +34,9 @@ void setSelectedButton(GtkWidget* tile, gpointer data, SudokuSquare* clicked_but
 }
 
 void generate_grid(int size, int difficulty, vector<vector<int>> sudoku_puzzle, GtkWidget* grid){
-    // GtkWidget *sudoku_grid = gtk_grid_new();
     GtkWidget* entry_box;
     vector<GtkWidget*> sub_squares;
     int subsize = sqrt(size);
-    // vector<vector<int>> sudoku_puzzle = get_puzzle(size, difficulty);
     for (int i = 0; i < size; i++){
         GtkWidget* subgrid = gtk_grid_new();
         sub_squares.push_back(subgrid);
@@ -59,7 +48,6 @@ void generate_grid(int size, int difficulty, vector<vector<int>> sudoku_puzzle, 
         for (int j = 0; j < size; j++){
             entry_box = gtk_button_new_with_label("");
             g_object_set(entry_box, "margin", 1, NULL);
-            // gtk_widget_set_can_focus (entry_box, false);
             SudokuSquare* new_button = new SudokuSquare(entry_box, sudoku_puzzle[i][j], i, j);
             gtk_widget_set_name(entry_box, "sudoku_tile");
             if (sudoku_puzzle[i][j] > 0){
@@ -67,14 +55,12 @@ void generate_grid(int size, int difficulty, vector<vector<int>> sudoku_puzzle, 
                 if (sudoku_puzzle[i][j] > 9){
                     buffer[0] += 7;
                 }
-                // sprintf(buffer, "%d", sudoku_puzzle[i][j]);
                 gtk_button_set_label (GTK_BUTTON(entry_box), buffer);
             }
             g_signal_connect(entry_box, "clicked", G_CALLBACK(setSelectedButton), new_button);
             gtk_grid_attach(GTK_GRID(sub_squares[subsize*(i/subsize) + j/subsize]), entry_box, j%subsize, i%subsize, 1, 1);
         }
     }
-    // return grid;
 }
 
 bool isValidMove(vector<vector<int>> board, int size, int y, int x, int user_num){
@@ -136,8 +122,6 @@ void grid_deleter(gpointer data, gpointer user_data){
 void update_size(GtkMenuItem *item, gpointer user_data) {
     const gchar* label = gtk_menu_item_get_label(item);
     var_storage* datar = (var_storage*)user_data;
-    // const gchar* size_4 = "4x4";
-    // const gchar* size_9 = "9x9";
     int* size = &(((var_storage*)datar)->size);
     if ((*label) == (*"4x4")){
         *size = 4;
@@ -249,11 +233,7 @@ void createSudokuGrid(GtkApplication *app, gpointer user_data){
     gtk_window_set_title(GTK_WINDOW(window), "Sudoku");
     sudoku_grid = gtk_grid_new();
 
-    
-    // vector<vector<int>> puzzle = get_puzzle(size, difficulty);
-    // var_storage_2* vars = new var_storage_2(sudoku_puzzle, *empty_squares);
     generate_grid(size, difficulty, sudoku_puzzle, sudoku_grid);
-    // menu_bar = generate_menu();
     gtk_container_add(GTK_CONTAINER(window), sudoku_grid);
     gtk_grid_attach(GTK_GRID(sudoku_grid), menu_bar, 0, 0, subsize, 1);
 
@@ -270,8 +250,6 @@ void createSudokuGrid(GtkApplication *app, gpointer user_data){
     GtkCssProvider *provider = gtk_css_provider_new ();
     gtk_css_provider_load_from_path (provider, "mystyle.css", NULL);
 
-    // subsize = sqrt(size);
-
     gtk_widget_show_all(window);
 }
 
@@ -284,49 +262,12 @@ void win(){
     // add more to this later
 }
 
-// void on_popup_clicked (GtkButton* button, GtkWidget* pWindow)
-// {
-//     GtkWidget *popup_window;
-//     popup_window = gtk_window_new (GTK_WINDOW_POPUP);
-//     gtk_window_set_title (GTK_WINDOW (popup_window), "Pop Up window");
-//     gtk_container_set_border_width (GTK_CONTAINER (popup_window), 10);
-//     gtk_window_set_resizable(GTK_WINDOW (popup_window), FALSE);
-//     gtk_window_set_decorated(GTK_WINDOW (popup_window), FALSE);
-//     gtk_widget_set_size_request (popup_window, 150, 150);
-//     gtk_window_set_transient_for(GTK_WINDOW (popup_window),GTK_WINDOW (pWindow));
-//     gtk_window_set_position (GTK_WINDOW (popup_window),GTK_WIN_POS_CENTER);
-//     g_signal_connect (G_OBJECT (button), "event",
-//                         G_CALLBACK (on_popup_window_event),NULL);
-
-//     GdkColor color;
-//     gdk_color_parse("#3b3131", &color);
-//     gtk_widget_modify_bg(GTK_WIDGET(popup_window), GTK_STATE_NORMAL, &color);
-
-
-//     gtk_widget_show_all (popup_window);
-// }
-
-// gboolean on_popup_window_event(GtkWidget *popup_window, GdkEventExpose *event)
-// {
-//     if(event->type == GDK_FOCUS_CHANGE)
-//         gtk_widget_hide (popup_window);
-
-//     return FALSE;
-// }
-
 int main (int argc, char **argv) {
     GtkApplication *app;
     int status;
     
     app = gtk_application_new("org.gtk.example", G_APPLICATION_FLAGS_NONE);
-    // vector<vector<int>> sudoku_puzzle = get_puzzle(9, 0);
     int empty_squares = 0;
-    // for (auto& i: sudoku_puzzle){
-    //     for (auto& j: i){
-    //         if (j != 0) empty_squares++;
-    //     }
-    // }
-    // var_storage* info = new var_storage(sudoku_puzzle, empty_squares);
     g_signal_connect(app, "activate", G_CALLBACK(activate), &empty_squares);
     status = g_application_run(G_APPLICATION(app), argc, argv);
     

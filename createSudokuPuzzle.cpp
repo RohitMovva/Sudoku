@@ -287,7 +287,6 @@ bool remove_selected_nodes(ListNode* head, vector<ListNode*> nodes, int size, T 
 
 vector<vector<int>> get_puzzle(int size, int difficulty){
     auto start = chrono::high_resolution_clock::now();
-    // int size = 9, difficulty = 0;
     auto rng = std::mt19937 {std::random_device{}()};
     ListNode* head = get_matrix(size);
     vector<ListNode*> ans;
@@ -314,12 +313,27 @@ vector<vector<int>> get_puzzle(int size, int difficulty){
         puzzle_board.push_back({});
         for (int j = 0; j < size; j++){
             if (!finans.empty() && (finans.back()-1)/size == i*size+j){
-                cout << (finans.back()-1)%size+1 << " ";
+                if ((finans.back()-1)%size+1 > 9){
+                    cout << char((finans.back()-1)%size+1+55);
+                } else {
+                    cout << (finans.back()-1)%size+1 << "";
+                }
                 puzzle_board[i].push_back((finans.back()-1)%size+1);
                 finans.pop_back();
             } else {
-                cout << "0 ";
+                cout << " ";
                 puzzle_board[i].push_back(0);
+            }
+        }
+        // cout << "\n";
+    }
+    cout << "\n";
+    for (auto& i: puzzle_board){
+        for (auto& j: i){
+            if (j > 9){
+                cout << char(j+55) << " ";
+            } else {
+                cout << j << " ";
             }
         }
         cout << "\n";
