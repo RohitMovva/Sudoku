@@ -30,7 +30,7 @@ vector<ListNode*> puzzlify(ListNode* head, vector<ListNode*> scrambled, int size
 template<typename T>
 bool remove_selected_nodes(ListNode* head, vector<ListNode*> nodes, int size, T rng);
 
-vector<vector<int>> get_puzzle();
+vector<vector<int>> get_puzzle(int size, int difficulty);
 // int main();
 
 #endif

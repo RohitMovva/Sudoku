@@ -285,9 +285,9 @@ bool remove_selected_nodes(ListNode* head, vector<ListNode*> nodes, int size, T 
 //     cout << "\n";
 // }
 
-vector<vector<int>> get_puzzle(){
+vector<vector<int>> get_puzzle(int size, int difficulty){
     auto start = chrono::high_resolution_clock::now();
-    int size = 9, difficulty = 0;
+    // int size = 9, difficulty = 0;
     auto rng = std::mt19937 {std::random_device{}()};
     ListNode* head = get_matrix(size);
     vector<ListNode*> ans;
