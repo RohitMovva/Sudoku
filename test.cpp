@@ -89,7 +89,7 @@ gboolean onKeyPress(GtkWidget* tile, GdkEventKey *event, gpointer data) {
         (*board)[selected_square->getX()][selected_square->getY()] = 0;
         empty_squares--;
     }
-    if (size <= 9 && (event->keyval < 49 || event->keyval > 49+size)){ // size <= 9 && 
+    if (size <= 9 && (event->keyval < 49 || event->keyval > 48+size)){ // size <= 9 && 
         return FALSE;
     }
     else if (size > 9 && (event->keyval < 49 || (event->keyval > 57 && event->keyval < 97) || event->keyval > 97+size-9)){
@@ -119,20 +119,12 @@ void grid_deleter(gpointer data, gpointer user_data){
     }
 }
 
-void update_size(GtkMenuItem *item, gpointer user_data) {
-    const gchar* label = gtk_menu_item_get_label(item);
+void regenerate_board(GtkMenuItem *item, gpointer user_data){
     var_storage* datar = (var_storage*)user_data;
-    int* size = &(((var_storage*)datar)->size);
-    if ((*label) == (*"4x4")){
-        *size = 4;
-    } else if ((*label) == (*"9x9")){
-        *size = 9;
-    } else if ((*label) == (*"16x16")){
-        *size = 16;
-    }
     GList *children = gtk_container_get_children(GTK_CONTAINER(datar->grid));
     g_list_foreach(children, grid_deleter, NULL);
-    vector<vector<int>> new_board = get_puzzle(*size, datar->difficulty);
+    cout << datar->difficulty << " OK this time right???\n";
+    vector<vector<int>> new_board = get_puzzle(datar->size, datar->difficulty);
     datar->board = new_board;
     datar->empty_squares = 0;
     for (auto& i: new_board){
@@ -145,6 +137,52 @@ void update_size(GtkMenuItem *item, gpointer user_data) {
     generate_grid(datar->size, datar->difficulty, new_board, datar->grid);
     gtk_widget_show_all(datar->window);
 }
+
+void update_size(GtkMenuItem *item, gpointer user_data) {
+    const gchar* label = gtk_menu_item_get_label(item);
+    var_storage* datar = (var_storage*)user_data;
+    int* size = &(((var_storage*)datar)->size);
+    if ((*label) == (*"4x4")){
+        *size = 4;
+    } else if ((*label) == (*"9x9")){
+        *size = 9;
+    } else if ((*label) == (*"16x16")){
+        *size = 16;
+    }
+    regenerate_board(NULL, datar);
+}
+
+void update_difficulty(GtkMenuItem *item, gpointer user_data) {
+    const gchar* label = gtk_menu_item_get_label(item);
+    var_storage* datar = (var_storage*)user_data;
+    int* difficulty = &(datar->difficulty);
+    int size = datar->size;
+    if ((*label) == (*"Easy")){
+        // *difficulty = INT32_MAX;
+        if (size == 4){
+            *difficulty = 0;
+        } else if (size == 9){
+            *difficulty = 36;
+        } else {
+            *difficulty = 150;
+        }
+    } else if ((*label) == (*"Moderate")){
+        // temporary stuff rn :P
+        if (size == 4){
+            *difficulty = 0;
+        } else if (size == 9){
+            *difficulty = 30;
+        } else {
+            *difficulty = 115;
+        }
+        // *difficulty = 9;
+    } else if ((*label) == (*"Hard")){
+        *difficulty = 0; // will create a minimal sudoku
+    }
+    regenerate_board(NULL, datar);
+}
+
+
 
 void createSudokuGrid(GtkApplication *app, gpointer user_data){
     GtkWidget *window;
@@ -244,6 +282,11 @@ void createSudokuGrid(GtkApplication *app, gpointer user_data){
     g_signal_connect(size_small, "activate", G_CALLBACK(update_size), datar);
     g_signal_connect(size_medium, "activate", G_CALLBACK(update_size), datar);
     g_signal_connect(size_large, "activate", G_CALLBACK(update_size), datar);
+
+    g_signal_connect(difficulty_easy, "activate", G_CALLBACK(update_difficulty), datar);
+    g_signal_connect(difficulty_medium, "activate", G_CALLBACK(update_difficulty), datar);
+    g_signal_connect(difficulty_hard, "activate", G_CALLBACK(update_difficulty), datar);
+
     g_signal_connect(regenerate, "activate", G_CALLBACK(update_size), datar);
 
 

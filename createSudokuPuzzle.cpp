@@ -325,7 +325,6 @@ vector<vector<int>> get_puzzle(int size, int difficulty){
                 puzzle_board[i].push_back(0);
             }
         }
-        // cout << "\n";
     }
     cout << "\n";
     for (auto& i: puzzle_board){
@@ -342,47 +341,3 @@ vector<vector<int>> get_puzzle(int size, int difficulty){
     cout << "Took " << duration.count() << " milliseconds to execute\n";
     return puzzle_board;
 }
-
-// int main(){
-    // auto start = chrono::high_resolution_clock::now();
-    // int size = 9, difficulty = 0;
-    // auto rng = std::mt19937 {std::random_device{}()};
-    // ListNode* head = get_matrix(size);
-    // vector<ListNode*> ans;
-    // int solutions;
-    // bool a = solve(head, ans, size, rng, solutions);
-    // shuffle(ans.begin(), ans.end(), rng);
-    // ans = puzzlify(head, ans, size, rng, difficulty);
-    // sort(ans.begin(), ans.end());
-    // vector<int> finans;
-    // for (auto& i: ans){
-    //     finans.push_back(i->row);
-    // }
-    // auto end = chrono::high_resolution_clock::now();
-    // auto duration = chrono::duration_cast<chrono::milliseconds>(end - start);
-    // cout << "\n\n" << ans.size() << "\n\n";
-    // vector<vector<int>> puzzle(size, vector<int>(size, 0));
-    // sort(finans.begin(), finans.end(), greater<int>());
-    // for (auto& i: finans){
-    //     puzzle[((i-1)/size)/size][((i-1)/size)%size] = (i-1)%size+1;
-    // }
-    // // Normal print
-    // vector<vector<int>> puzzle_board;
-    // for (int i = 0; i < size; i++){
-    //     puzzle_board.push_back({});
-    //     for (int j = 0; j < size; j++){
-    //         if (!finans.empty() && (finans.back()-1)/size == i*size+j){
-    //             // cout << (finans.back()-1)%size+1 << " ";
-    //             puzzle_board[i].push_back((finans.back()-1)%size+1);
-    //             finans.pop_back();
-    //         } else {
-    //             // cout << "0 ";
-    //             puzzle_board[i].push_back(0);
-    //         }
-    //     }
-    //     // cout << "\n";
-    // }
-    // // pretty_print(puzzle, size);
-    // cout << "Took " << duration.count() << " milliseconds to execute\n";
-    // return 0;
-// }
