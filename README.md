@@ -7,3 +7,5 @@ g++ `pkg-config --cflags gtk+-3.0` -o example-0 test.cpp SudokuSquare.cpp `pkg-c
 Will compile to example-0
 
 Thing on how to do keypresses: https://stackoverflow.com/questions/44098084/how-do-i-handle-keyboard-events-in-gtk3 and this https://stackoverflow.com/questions/7047757/detect-which-key-is-pressed-in-c
+
+testinggg
