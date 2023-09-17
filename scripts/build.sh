@@ -7,7 +7,7 @@ pushd "$ROOT_DIR" > /dev/null
 
 # ----------------------------- LAMBDA-SH & ARGS ------------------------------
 
-source lambda-sh/lambda.sh
+source ./lambda.sh
 
 LAMBDA_PARSE_ARG build Release "The type of build to produce."
 LAMBDA_PARSE_ARG cpp_compiler g++ "The compiler to use for C++ code."
@@ -29,7 +29,7 @@ fi
 LAMBDA_INFO "Attempting to Compile a $LAMBDA_build for lamscript."
 
 # ----------------------------------- CMAKE ------------------------------------
-case "$1" in
+case "$os" in
     linux)
         g++ `pkg-config --cflags gtk+-3.0` -o example-0 SudokuSquare.cpp createSudokuPuzzle.cpp test.cpp `pkg-config --libs gtk+-3.0`
         ;;
