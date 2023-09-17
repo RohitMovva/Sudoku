@@ -40,6 +40,10 @@ case "$1" in
         $cpp_compiler `pkg-config --cflags gtk+-3.0` -o example-0 SudokuSquare.cpp createSudokuPuzzle.cpp test.cpp `pkg-config --libs gtk+-3.0`
         ;;
     *)
+        echo "$USAGE"
+        exit 1
+        ;;
+esac
 
 # mkdir -p build
 # pushd build > /dev/null
@@ -62,10 +66,10 @@ case "$1" in
 
 # ----------------------------------- BUILD ------------------------------------
 
-$BUILD_COMMAND
+# $BUILD_COMMAND
 
-LAMBDA_ASSERT_LAST_COMMAND_OK "Couldn't successfully compile lamscript."
-LAMBDA_INFO "Successfully compiled lamscript."
+# LAMBDA_ASSERT_LAST_COMMAND_OK "Couldn't successfully compile lamscript."
+# LAMBDA_INFO "Successfully compiled lamscript."
 
-popd > /dev/null  # build
-popd > /dev/null  # ROOT_DIR
+# popd > /dev/null  # build
+# popd > /dev/null  # ROOT_DIR
