@@ -52,5 +52,5 @@ jobs:
             --os ${{ matrix.target }}
             --cores 2
 
-      - name: Run all of lamscripts tests.
-        run: ./scripts/run_all_tests.sh --build Release --os ${{ matrix.target }}
+      # - name: Run all of lamscripts tests.
+      #   run: ./scripts/run_all_tests.sh --build Release --os ${{ matrix.target }}

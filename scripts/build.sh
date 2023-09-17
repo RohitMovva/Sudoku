@@ -12,7 +12,7 @@ source scripts/lambda.sh
 LAMBDA_PARSE_ARG build Release "The type of build to produce."
 LAMBDA_PARSE_ARG cpp_compiler g++ "The compiler to use for C++ code."
 LAMBDA_PARSE_ARG cores 6 "The number of cores used for compilation."
-LAMBDA_PARSE_ARG os Linux "The operating system being built on."
+LAMBDA_PARSE_ARG os linux "The operating system being built on."
 
 LAMBDA_COMPILE_ARGS $@
 
@@ -26,7 +26,7 @@ if [ "$LAMBDA_os" = "Windows" ]; then
     BUILD_COMMAND="MSBuild.exe lamscript.sln //t:Rebuild //p:Configuration=$LAMBDA_build"
 fi
 
-LAMBDA_INFO "Attempting to Compile a $LAMBDA_build for OS $os using compiler $cpp_compiler or $LAMBDA_os"
+LAMBDA_INFO "Attempting to Compile a $LAMBDA_build for OS $LAMBDA_os using compiler $LAMBDA_cpp_compiler or $LAMBDA_os"
 
 # ----------------------------------- CMAKE ------------------------------------
 case "$LAMBDA_os" in
