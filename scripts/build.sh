@@ -1,4 +1,4 @@
-# compile_lamscript.sh
+# build.sh
 #
 # This script is used to configure and compile lamscript.
 
