@@ -48,7 +48,7 @@ jobs:
       - name: Compile a release build of lamscript
         run: ./scripts/build.sh \
             --build Release \
-            --cpp-compiler ${{ matrix.compiler }} \
+            --cpp_compiler ${{ matrix.compiler }} \
             --os ${{ matrix.target }}
             --cores 2
 
