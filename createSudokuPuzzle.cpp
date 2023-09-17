@@ -216,74 +216,74 @@ bool remove_selected_nodes(ListNode* head, vector<ListNode*> nodes, int size, T 
     return true;
 }
 
-// void pretty_print(vector<vector<int>> board, int size){
-//     for (int i = 0; i < board.size(); i++){
-//         if ((i)%(int(sqrt(size))) == 0){
-//             for (int j = 0; j < size; j++){
-//                 if (j == 0){
-//                     if (i == 0){
-//                         cout << "┌--";
-//                     } else {
-//                         cout << "├--";
-//                     }
-//                 } else if (j == size-1){
-//                     if (i == 0){
-//                         cout << "-┐";
-//                     } else {
-//                         cout << "-┤";
-//                     }
-//                 }
-//                 else if ((j+1)%(int(sqrt(size))) == 0){
-//                     if (i == 0){
-//                         cout << "-┬";
-//                     }
-//                     else {
-//                         cout << "-+";
-//                     }
-//                 } else {
-//                     cout << "--";
-//                 }
-//             }
-//             cout << "\n";
-//         }
-//         for (int j = 0; j < board[i].size(); j++){
-//             if (j == 0){
-//                 cout << "|";
-//             }
-//             if (board[i][j] == 0){
-//                 cout << " ";
-//             }
-//             else {
-//                 if (board[i][j] > 9){
-//                     cout << char(board[i][j]+55);
-//                 } else {
-//                     cout << board[i][j];
-//                 }
-//             }
-//             if ((j+1)%(int(sqrt(size))) == 0){
-//                 cout << "|";
-//             } else {
-//                 cout << " ";
-//             }
-//         }
-//         cout << "\n";
-//     }
-//     for (int i = 0; i < size; i++){
-//         // cout << ((i+1)%size) << " ASDF\n";
-//         if (i == 0){
-//             cout << "└-";
-//         }
-//         else if (i == size-1){
-//             cout << "--┘";
-//         } 
-//         else if ((i)%int(sqrt(size)) == 0){
-//             cout << "┴-";
-//         } else {
-//             cout << "--";
-//         }
-//     }
-//     cout << "\n";
-// }
+void pretty_print(vector<vector<int>> board, int size){
+    for (int i = 0; i < board.size(); i++){
+        if ((i)%(int(sqrt(size))) == 0){
+            for (int j = 0; j < size; j++){
+                if (j == 0){
+                    if (i == 0){
+                        cout << "┌--";
+                    } else {
+                        cout << "├--";
+                    }
+                } else if (j == size-1){
+                    if (i == 0){
+                        cout << "-┐";
+                    } else {
+                        cout << "-┤";
+                    }
+                }
+                else if ((j+1)%(int(sqrt(size))) == 0){
+                    if (i == 0){
+                        cout << "-┬";
+                    }
+                    else {
+                        cout << "-+";
+                    }
+                } else {
+                    cout << "--";
+                }
+            }
+            cout << "\n";
+        }
+        for (int j = 0; j < board[i].size(); j++){
+            if (j == 0){
+                cout << "|";
+            }
+            if (board[i][j] == 0){
+                cout << " ";
+            }
+            else {
+                if (board[i][j] > 9){
+                    cout << char(board[i][j]+55);
+                } else {
+                    cout << board[i][j];
+                }
+            }
+            if ((j+1)%(int(sqrt(size))) == 0){
+                cout << "|";
+            } else {
+                cout << " ";
+            }
+        }
+        cout << "\n";
+    }
+    for (int i = 0; i < size; i++){
+        // cout << ((i+1)%size) << " ASDF\n";
+        if (i == 0){
+            cout << "└-";
+        }
+        else if (i == size-1){
+            cout << "--┘";
+        } 
+        else if ((i)%int(sqrt(size)) == 0){
+            cout << "┴-";
+        } else {
+            cout << "--";
+        }
+    }
+    cout << "\n";
+}
 
 vector<vector<int>> get_puzzle(int size, int difficulty){
     auto start = chrono::high_resolution_clock::now();
