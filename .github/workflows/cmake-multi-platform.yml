@@ -39,7 +39,7 @@ jobs:
         if: ${{ matrix.os == 'ubuntu-latest'}}
         run:
           sudo apt-get install -y libgtk-3-dev
-          sudo restart
+          sudo reboot
         
 
       - name: Checkout Repository
