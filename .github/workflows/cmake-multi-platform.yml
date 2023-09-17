@@ -38,15 +38,15 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Run the projects setup.
-        run: ./scripts/setup.sh --within-ci true
+      # - name: Run the projects setup.
+      #   run: ./scripts/setup.sh --within-ci true
 
       - name: Add msbuild to PATH
         if: ${{ matrix.os == 'windows-latest' }}
         uses: microsoft/setup-msbuild@v1.0.2
 
       - name: Compile a release build of lamscript
-        run: ./scripts/compile_lamscript.sh \
+        run: ./scripts/build.sh \
             --build Release \
             --cpp-compiler ${{ matrix.compiler }} \
             --os ${{ matrix.target }}
