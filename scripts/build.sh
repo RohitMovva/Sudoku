@@ -35,10 +35,11 @@ case "$1" in
         ;;
     macos)
         g++ `pkg-config --cflags gtk+-3.0` -o example-0 SudokuSquare.cpp createSudokuPuzzle.cpp test.cpp `pkg-config --libs gtk+-3.0`
-    ;;
+        ;;
     windows)
         $cpp_compiler `pkg-config --cflags gtk+-3.0` -o example-0 SudokuSquare.cpp createSudokuPuzzle.cpp test.cpp `pkg-config --libs gtk+-3.0`
         ;;
+    *)
 
 # mkdir -p build
 # pushd build > /dev/null
