@@ -7,7 +7,7 @@ pushd "$ROOT_DIR" > /dev/null
 
 # ----------------------------- LAMBDA-SH & ARGS ------------------------------
 
-# source lambda-sh/lambda.sh
+source lambda-sh/lambda.sh
 
 LAMBDA_PARSE_ARG build Release "The type of build to produce."
 LAMBDA_PARSE_ARG cpp_compiler g++ "The compiler to use for C++ code."
