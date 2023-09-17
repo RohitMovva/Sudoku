@@ -24,15 +24,15 @@ jobs:
         include:
           - os: ubuntu-latest
             compiler: g++-10
-            target: Linux
+            target: linux
 
           - os: macos-latest
             compiler: g++-10
-            target: Macos
+            target: macos
 
           - os: windows-latest
             compiler: cl
-            target: Windows
+            target: windows
 
     steps:
       - name: Checkout Repository
