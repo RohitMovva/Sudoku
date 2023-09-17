@@ -26,15 +26,16 @@ if [ "$LAMBDA_os" = "Windows" ]; then
     BUILD_COMMAND="MSBuild.exe lamscript.sln //t:Rebuild //p:Configuration=$LAMBDA_build"
 fi
 
-LAMBDA_INFO "Attempting to Compile a $LAMBDA_build for lamscript."
+LAMBDA_INFO "Attempting to Compile a $LAMBDA_build for OS $os using compiler $cpp_compiler or $LAMBDA_os"
 
 # ----------------------------------- CMAKE ------------------------------------
-case "$os" in
+case "$LAMBDA_os" in
     linux)
-        g++ `pkg-config --cflags gtk+-3.0` -o example-0 SudokuSquare.cpp createSudokuPuzzle.cpp test.cpp `pkg-config --libs gtk+-3.0`
+        LAMBDA_INFO "Attempting to Compile a $LAMBDA_build for Linux -."
+        $cpp_compiler `pkg-config --cflags gtk+-3.0` -o example-0 SudokuSquare.cpp createSudokuPuzzle.cpp test.cpp `pkg-config --libs gtk+-3.0`
         ;;
     macos)
-        g++ `pkg-config --cflags gtk+-3.0` -o example-0 SudokuSquare.cpp createSudokuPuzzle.cpp test.cpp `pkg-config --libs gtk+-3.0`
+        $cpp_compiler `pkg-config --cflags gtk+-3.0` -o example-0 SudokuSquare.cpp createSudokuPuzzle.cpp test.cpp `pkg-config --libs gtk+-3.0`
         ;;
     windows)
         $cpp_compiler `pkg-config --cflags gtk+-3.0` -o example-0 SudokuSquare.cpp createSudokuPuzzle.cpp test.cpp `pkg-config --libs gtk+-3.0`
@@ -44,6 +45,7 @@ case "$os" in
         exit 1
         ;;
 esac
+LAMBDA_INFO "Build is complete for to Compile a $LAMBDA_build for OS $os"
 
 # mkdir -p build
 # pushd build > /dev/null
