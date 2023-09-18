@@ -21,14 +21,14 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest]
-        compiler: [ g++-11 ]
+        compiler: [ g++-12 ]
         include:
           - os: ubuntu-latest
-            compiler: g++-11
+            compiler: g++-12
             target: linux
 
           - os: macos-latest
-            compiler: g++-11
+            compiler: g++-12
             target: macos
 
           - os: windows-latest
@@ -39,7 +39,7 @@ jobs:
       - name: Install GTK for Linux
         if: ${{ matrix.os == 'ubuntu-latest'}}
         run:
-          sudo apt-get install -y libgtk-3-dev libpthread-stubs0-dev gcc
+          sudo apt-get install -y libgtk-3-dev
           # sudo reboot
       - name: Install GTK for MacOS
         if: ${{ matrix.os == 'macos-latest'}}
