@@ -67,9 +67,9 @@ jobs:
       - name: Add builds to download folder
         run: |
           # cd downloads
-            ls
+            
             mkdir downloads
-            ls
+            
             sudo mv build /downloads
             ls
 
