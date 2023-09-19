@@ -77,7 +77,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with: 
           name: assets-for-download
-          path: ${GITHUB_WORKSPACE}/downloads
+          path: Sudoku/downloads
             
 
       # - name: Run all of lamscripts tests.
