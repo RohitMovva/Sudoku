@@ -71,6 +71,7 @@ jobs:
             mkdir downloads
             
             sudo mv build /downloads
+            ls
             cd downloads
             ls
 
