@@ -77,8 +77,6 @@ jobs:
         uses: actions/upload-artifact@v2
         with: 
           name: assets-for-download
-          path: '/home/runner/work/Sudoku/Sudoku/downloads
+          path: /home/runner/work/Sudoku/Sudoku/downloads
             
 
-      # - name: Run all of lamscripts tests.
-      #   run: ./scripts/run_all_tests.sh --build Release --os ${{ matrix.target }}
