@@ -38,8 +38,9 @@ jobs:
     steps:
       - name: Install GTK for Linux
         if: ${{ matrix.os == 'ubuntu-latest'}}
-        run:
-          sudo apt-get install -y libgtk-3-dev
+        run: |
+            sudo apt-get install -y libgtk-3-dev
+            mkdr downloads
           # sudo reboot
       - name: Install GTK for MacOS
         if: ${{ matrix.os == 'macos-latest'}}
@@ -63,6 +64,17 @@ jobs:
             --cpp_compiler ${{ matrix.compiler }} \
             --os ${{ matrix.target }}
             --cores 2
+      
+      - name: Add builds to download folder
+        run: |
+          # cd downloads
+          mv build /downloads
+
+      - name: Use the Upload Artifact GitHub Action
+        uses: actions/upload-artifact@v2
+        with: 
+          name: assets-for-download
+          path: downloads
             
 
       # - name: Run all of lamscripts tests.
