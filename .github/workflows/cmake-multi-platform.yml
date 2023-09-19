@@ -44,7 +44,7 @@ jobs:
       - name: Install GTK for MacOS
         if: ${{ matrix.os == 'macos-latest'}}
           
-        run:
+        run: |
           /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
           brew install gtk3
 
