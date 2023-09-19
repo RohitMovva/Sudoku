@@ -32,7 +32,7 @@ LAMBDA_INFO "Attempting to Compile a $LAMBDA_build for OS $LAMBDA_os using compi
 case "$LAMBDA_os" in
     linux)
         LAMBDA_INFO "Attempting to Compile a $LAMBDA_build for Linux -. "
-        $LAMBDA_cpp_compiler `pkg-config --cflags gtk+-3.0` -o linux_download SudokuSquare.cpp createSudokuPuzzle.cpp test.cpp `pkg-config --libs gtk+-3.0`
+        $LAMBDA_cpp_compiler `pkg-config --cflags gtk+-3.0` -o build SudokuSquare.cpp createSudokuPuzzle.cpp test.cpp `pkg-config --libs gtk+-3.0`
         ;;
     macos)
         LAMBDA_INFO "Attempting to Compile a $LAMBDA_build for MacOS -."
