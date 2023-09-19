@@ -71,7 +71,7 @@ jobs:
             
             mkdir downloads
             
-            sudo mv build ${{ github.workspace }}/downloads
+            sudo mv ${{ matrix.os }}_build ${{ github.workspace }}/downloads
             ls
             cd downloads
             ls
