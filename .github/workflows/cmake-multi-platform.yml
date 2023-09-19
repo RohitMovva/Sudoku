@@ -70,7 +70,7 @@ jobs:
             
             mkdir downloads
             
-            sudo mv build /downloads
+            sudo mv build ${{ github.workspace }}/downloads
             ls
             cd downloads
             ls
