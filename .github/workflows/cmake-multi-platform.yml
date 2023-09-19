@@ -71,12 +71,13 @@ jobs:
             mkdir downloads
             
             sudo mv build /downloads
+            cd downloads
             ls
 
       - name: Use the Upload Artifact GitHub Action
         uses: actions/upload-artifact@v2
         with: 
           name: assets-for-download
-          path: /home/runner/work/Sudoku/Sudoku/downloads
+          path:  ${{ github.workspace }}/downloads
             
 
