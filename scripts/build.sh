@@ -36,7 +36,7 @@ case "$LAMBDA_os" in
         ;;
     macos)
         LAMBDA_INFO "Attempting to Compile a $LAMBDA_build for MacOS -."
-        $cpp_compiler `pkg-config --cflags gtk+-3.0` -o example-0 SudokuSquare.cpp createSudokuPuzzle.cpp test.cpp `pkg-config --libs gtk+-3.0`
+        $LAMBDA_cpp_compiler `pkg-config --cflags gtk+-3.0` -o build SudokuSquare.cpp createSudokuPuzzle.cpp test.cpp `pkg-config --libs gtk+-3.0`
         ;;
     windows)
         LAMBDA_INFO "Attempting to Compile a $LAMBDA_build for Windows -."
