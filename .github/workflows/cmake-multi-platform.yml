@@ -71,7 +71,7 @@ jobs:
             
             mkdir downloads
             
-            sudo mv ${{ matrix.os }}_build ${{ github.workspace }}/downloads
+            sudo mv build ${{ github.workspace }}/downloads
             ls
             cd downloads
             ls
@@ -79,7 +79,7 @@ jobs:
       - name: Use the Upload Artifact GitHub Action
         uses: actions/upload-artifact@v2
         with: 
-          name: assets-for-download
+          name: assets-for-download-${{ matrix.os }}
           path:  ${{ github.workspace }}/downloads
             
 
