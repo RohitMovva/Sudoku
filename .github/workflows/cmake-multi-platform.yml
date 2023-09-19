@@ -40,7 +40,6 @@ jobs:
         if: ${{ matrix.os == 'ubuntu-latest'}}
         run: |
             sudo apt-get install -y libgtk-3-dev
-            mkdr downloads
           # sudo reboot
       - name: Install GTK for MacOS
         if: ${{ matrix.os == 'macos-latest'}}
@@ -68,7 +67,8 @@ jobs:
       - name: Add builds to download folder
         run: |
           # cd downloads
-          mv build /downloads
+            mkdir downloads
+            mv build /downloads
 
       - name: Use the Upload Artifact GitHub Action
         uses: actions/upload-artifact@v2
