@@ -46,7 +46,7 @@ jobs:
           
         run: |
           /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-          brew install gtk3
+          brew install gtk+3
 
       - name: Checkout Repository
         uses: actions/checkout@v2
