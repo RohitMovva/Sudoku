@@ -52,11 +52,15 @@ jobs:
         uses: msys2/setup-msys2@v2
         with:
           msystem: mingw64
-          install: mingw-w64-x86_64-openssl
-          run: |
-            pacman -S base-devel gcc vim cmake
-            pacman -S mingw-w64-x86_64-pkg-config
-            pacman -S mingw-w64-x86_64-gtk3
+          install: |
+            mingw-w64-x86_64-openssl
+            base-devel gcc vim cmake
+            mingw-w64-x86_64-pkg-config
+            mingw-w64-x86_64-gtk3
+          # run: |
+          #   pacman -S 
+          #   pacman -S 
+          #   pacman -S 
         
 
       - name: Checkout Repository
