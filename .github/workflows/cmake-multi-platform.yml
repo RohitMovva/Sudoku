@@ -70,21 +70,21 @@ jobs:
             --os ${{ matrix.target }}
             --cores 2
       
-      - name: Add builds to download folder
-        run: |
-          # cd downloads
+      # - name: Add builds to download folder
+      #   run: |
+      #     # cd downloads
             
-            mkdir downloads
+      #       mkdir downloads
             
-            sudo mv build ${{ github.workspace }}/downloads
-            ls
-            cd downloads
-            ls
+      #       sudo mv build ${{ github.workspace }}/downloads
+      #       ls
+      #       cd downloads
+      #       ls
 
       - name: Use the Upload Artifact GitHub Action
         uses: actions/upload-artifact@v2
         with: 
           name: assets-for-download-${{ matrix.os }}
-          path:  ${{ github.workspace }}/downloads
+          path:  ${{ github.workspace }}/build
             
 
