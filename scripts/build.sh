@@ -40,9 +40,9 @@ case "$LAMBDA_os" in
         ;;
     windows)
         LAMBDA_INFO "Attempting to Compile a $LAMBDA_build for Windows -."
-        pkg-config --cflags gtk+-3.0
-        pkg-config --libs gtk+-3.0
-        bash "$LAMBDA_cpp_compiler `pkg-config --cflags gtk+-3.0` -o build SudokuSquare.cpp createSudokuPuzzle.cpp test.cpp `pkg-config --libs gtk+-3.0`"
+        bash -c "pkg-config --cflags gtk+-3.0"
+        bash -c "pkg-config --libs gtk+-3.0"
+        bash -c "$LAMBDA_cpp_compiler `pkg-config --cflags gtk+-3.0` -o build SudokuSquare.cpp createSudokuPuzzle.cpp test.cpp `pkg-config --libs gtk+-3.0`"
         ;;
     *)
         echo "$USAGE"
