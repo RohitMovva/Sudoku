@@ -32,7 +32,7 @@ jobs:
             target: macos
 
           - os: windows-latest
-            compiler: g++-12
+            compiler: g++
             target: windows
 
     steps:
