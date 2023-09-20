@@ -49,9 +49,13 @@ jobs:
           brew install gtk+3
       - name: Install GTK for Windows
         if: ${{ matrix.os == 'windows-latest'}}
-        run: |
-          choco install gtk-runtime
-          # sudo reboot
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: ${{matrix.sys}}
+          install: mingw-w64-${{matrix.env}}-openssl
+          run: |
+            pacman -S mingw-w64-x86_64-gtk3
+        
 
       - name: Checkout Repository
         uses: actions/checkout@v2
