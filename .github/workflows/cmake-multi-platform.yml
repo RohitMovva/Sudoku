@@ -55,6 +55,7 @@ jobs:
           install: mingw-w64-x86_64-openssl
           run: |
             pacman -S base-devel gcc vim cmake
+            pacman -S mingw-w64-x86_64-pkg-config
             pacman -S mingw-w64-x86_64-gtk3
         
 
