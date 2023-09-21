@@ -57,15 +57,24 @@ jobs:
             base-devel gcc vim cmake
             mingw-w64-x86_64-pkg-config
             mingw-w64-x86_64-gtk3
-          run: |
-            ./scripts/build.sh \
-            --build Release \
-            --cpp_compiler ${{ matrix.compiler }} \
-            --os ${{ matrix.target }}
-            --cores 2
+          # run: |
+          #   ./scripts/build.sh \
+          #   --build Release \
+          #   --cpp_compiler ${{ matrix.compiler }} \
+          #   --os ${{ matrix.target }}
+          #   --cores 2
           #   pacman -S 
           #   pacman -S 
           #   pacman -S h
+      - name: Do stuff
+        if: ${{ matrix.os == 'windows-latest'}}
+        shell: msys2 {0}
+        run: |
+          ./scripts/build.sh \
+          --build Release \
+          --cpp_compiler ${{ matrix.compiler }} \
+          --os ${{ matrix.target }}
+          --cores 2
         
 
       - name: Checkout Repository
@@ -78,7 +87,8 @@ jobs:
         if: ${{ matrix.os == 'windows-latest' }}
         uses: microsoft/setup-msbuild@v1.0.2
 
-      - name: Compile a release build of lamscript
+      - name: Compile a release build of sudoku
+        if: ${{ matrix.os != 'windows-latest'}}
         run: ./scripts/build.sh \
             --build Release \
             --cpp_compiler ${{ matrix.compiler }} \
