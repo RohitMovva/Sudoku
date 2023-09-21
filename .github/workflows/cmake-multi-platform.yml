@@ -93,7 +93,7 @@ jobs:
             --build Release \
             --cpp_compiler ${{ matrix.compiler }} \
             --os ${{ matrix.target }}
-            -- cores 2
+            --cores 2
       
       # - name: Add builds to download folder
       #   run: |
