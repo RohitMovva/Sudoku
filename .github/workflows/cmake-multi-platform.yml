@@ -56,7 +56,7 @@ jobs:
             mingw-w64-x86_64-openssl
             base-devel gcc vim cmake
             mingw-w64-x86_64-pkg-config
-            -S mingw-w64-x86_64-gtk3
+            mingw-w64-x86_64-gtk3
             git
           # run: |
           #   ./scripts/build.sh \
