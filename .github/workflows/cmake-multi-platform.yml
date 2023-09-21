@@ -15,7 +15,7 @@ defaults:
 
 jobs:
   build_and_test:
-    name: Build & test Lamscript on ${{ matrix.os }} with ${{ matrix.compiler }}.
+    name: Build & test Sudoku on ${{ matrix.os }} with ${{ matrix.compiler }}.
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -56,7 +56,8 @@ jobs:
             mingw-w64-x86_64-openssl
             base-devel gcc vim cmake
             mingw-w64-x86_64-pkg-config
-            mingw-w64-x86_64-gtk3
+            # mingw-w64-x86_64-gtk3
+            base-devel mingw-w64-i686-toolchain mingw-w64-i686-gtk3 
             git
           #   pacman -S 
           #   pacman -S 
