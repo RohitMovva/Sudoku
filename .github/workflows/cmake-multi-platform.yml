@@ -58,12 +58,6 @@ jobs:
             mingw-w64-x86_64-pkg-config
             mingw-w64-x86_64-gtk3
             git
-          # run: |
-          #   ./scripts/build.sh \
-          #   --build Release \
-          #   --cpp_compiler ${{ matrix.compiler }} \
-          #   --os ${{ matrix.target }}
-          #   --cores 2
           #   pacman -S 
           #   pacman -S 
           #   pacman -S h
