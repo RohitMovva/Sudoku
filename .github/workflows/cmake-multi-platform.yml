@@ -66,17 +66,6 @@ jobs:
           #   pacman -S 
           #   pacman -S 
           #   pacman -S h
-      - name: Do stuff
-        if: ${{ matrix.os == 'windows-latest'}}
-        shell: msys2 {0}
-        run: |
-          ./scripts/build.sh \
-          --build Release \
-          --cpp_compiler ${{ matrix.compiler }} \
-          --os ${{ matrix.target }}
-          --cores 2
-        
-
       - name: Checkout Repository
         uses: actions/checkout@v2
 
@@ -87,6 +76,16 @@ jobs:
         if: ${{ matrix.os == 'windows-latest' }}
         uses: microsoft/setup-msbuild@v1.0.2
 
+      - name: Do stuff
+        if: ${{ matrix.os == 'windows-latest'}}
+        shell: msys2 {0}
+        run: |
+          ./scripts/build.sh \
+          --build Release \
+          --cpp_compiler ${{ matrix.compiler }} \
+          --os ${{ matrix.target }}
+          --cores 2
+          
       - name: Compile a release build of sudoku
         if: ${{ matrix.os != 'windows-latest'}}
         run: ./scripts/build.sh \
