@@ -56,11 +56,12 @@ jobs:
             mingw-w64-x86_64-openssl
             base-devel gcc vim cmake
             mingw-w64-x86_64-pkg-config
-            base-devel mingw-w64-i686-toolchain mingw-w64-i686-gtk3 
+            mingw-w64-x86_64-gtk3
             git
           #   pacman -S 
           #   pacman -S 
-          #   pacman -S h
+          #   pacman -S h 
+          # base-devel mingw-w64-i686-toolchain mingw-w64-i686-gtk3 
       - name: Checkout Repository
         uses: actions/checkout@v2
 
