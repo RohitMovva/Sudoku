@@ -47,7 +47,8 @@ case "$LAMBDA_os" in
         echo `pkg-config --libs gtk+-3.0`
         echo `pkg-config --cflags gtk+-3.0`
         echo `ls`
-        echo `find /c -name 'lgtk-3*'`
+        echo `pwd`
+        # echo `find /c -name 'libsimavr.a'`
         # CPPFLAGS=-I/mingw64/include LDFLAGS=-L/mingw64/lib
         $LAMBDA_cpp_compiler LDFLAGS=-L/mingw64/usr/lib `pkg-config --cflags gtk+-3.0` -o build SudokuSquare.cpp createSudokuPuzzle.cpp test.cpp `pkg-config --libs gtk+-3.0`
         ;;
