@@ -53,10 +53,10 @@ jobs:
         with:
           msystem: mingw64
           install: |
-            mingw-w64-x86_64-openssl
+            # mingw-w64-x86_64-openssl
             base-devel gcc vim cmake
-            mingw-w64-x86_64-pkg-config
-            mingw-w64-x86_64-gtk3
+            # mingw-w64-x86_64-pkg-config
+            # mingw-w64-x86_64-gtk3
             git
           #   pacman -S 
           #   pacman -S 
