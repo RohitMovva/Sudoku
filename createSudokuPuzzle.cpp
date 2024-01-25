@@ -290,7 +290,7 @@ vector<vector<int>> get_puzzle(int size, int difficulty){
     auto rng = std::mt19937 {std::random_device{}()};
     ListNode* head = get_matrix(size);
     vector<ListNode*> ans;
-    int solutions;
+    int solutions = 0;
     bool a = solve(head, ans, size, rng, solutions);
     shuffle(ans.begin(), ans.end(), rng);
     ans = puzzlify(head, ans, size, rng, difficulty);
@@ -341,3 +341,7 @@ vector<vector<int>> get_puzzle(int size, int difficulty){
     cout << "Took " << duration.count() << " milliseconds to execute\n";
     return puzzle_board;
 }
+
+// int main(){
+//     get_puzzle(36, 1e9);
+// }
