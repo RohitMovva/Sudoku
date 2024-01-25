@@ -1,26 +1,9 @@
+# Import the module
+import sudoku
 
+# Call a function from the module
+# Replace 'function_name' and parameters with actual function names and arguments from your C++ code
+result = sudoku.get_puzzle(9, 100000)
 
-# import the module 
-from ctypes import cdll 
-
-# load the library 
-lib = cdll.LoadLibrary('./libgeek.so') 
-
-# create a Geek class 
-class Geek(object): 
-  
-    # constructor 
-    def __init__(self): 
-  
-        # attribute 
-        self.obj = lib.Geek_new() 
-  
-    # define method 
-    def myFunction(self): 
-        lib.Geek_myFunction(self.obj) 
-  
-# create a Geek class object 
-f = Geek() 
-  
-# object method calling 
-f.myFunction()
+# Use the result as needed
+print(result)

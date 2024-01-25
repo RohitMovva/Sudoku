@@ -3,28 +3,29 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 import torch.nn.functional as F
+import sudoku # yay I made this!!!
 from tqdm import tqdm
 from tqdm import trange
 import json 
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(device)
-class TicTacToe():
-    def __init__(self, player1, player2):
-        self.players = [player1, player2]
+class SudokuWrapper():
+    def __init__(self, player):
+        self.player = player
 
         self._reward = {0: 0, 1: 1, 2: -1}
 
     def play(self, num_games = 1, visualize=False):
         transitions = []
         for _ in range(0, num_games):
-            turn = 1
-            state = np.zeros((3,3), dtype=np.int64) # GET BOARD
+            state = np.array(sudoku.get_puzzle(9, 100000), dtype=np.int64)
+            # np.zeros((3,3), dtype=np.int64) # GET BOARD
             
+
             # state = (state2d, turn) # *
             for i in range(9):
-                current_player = self.players[turn-1]
-                action = current_player.get_action(state)# *
+                action = self.player.get_action(state)# *
                 print(action)
                 next_state, finish, reward = self.play_turn(state, action) # *
                 transitions.append((state, action, next_state, reward)) # *
@@ -38,13 +39,13 @@ class TicTacToe():
 
         return transitions
     
-    def getPlayerMove(self):
-        col = int(input("What column would you like to play in? "))
-        row = int(input("What row would you like to play in?" ))
-        return torch.tensor(row*3 + col, dtype=torch.int64)
+    # def getPlayerMove(self):
+    #     col = int(input("What column would you like to play in? "))
+    #     row = int(input("What row would you like to play in? " ))
+    #     return torch.tensor(row*3 + col, dtype=torch.int64)
 
 
-    def play_turn(self, state, action): # *
+    def play_turn(self, state, action): # **
         # state2d, turn = state # * 
         next_state = state.copy() # *
         # next_turn = (turn)%2+1
@@ -205,11 +206,11 @@ class Agent():
 def trainNewModel():
     np.random.seed(3)
     torch.manual_seed(1)
-    total_number_of_games = 15_000_00
-    number_of_games_per_batch = 1000
+    total_number_of_games = 150 # 15_000_000
+    number_of_games_per_batch = 10 # 1000
 
     player = Agent(epsilon = 0.7, learning_rate = 0.01)
-    game = TicTacToe(player, player)
+    game = SudokuWrapper(player)
 
     min_loss = np.inf
     range_ = trange(total_number_of_games//number_of_games_per_batch)
@@ -228,18 +229,18 @@ def trainNewModel():
 
 def playModel():
     player = Agent(epsilon = 0.0)
-    game = TicTacToe(player, player)
+    game = SudokuWrapper(player)
     player.qmodel.load("qmodel.json")
 
     game.play(num_games=1, visualize=True)
 
 def humanvBot():
     player = Agent(epsilon = 0.0)
-    game = TicTacToe(None, player)
+    game = SudokuWrapper(player)
     player.qmodel.load("qmodel.json")
 
     game.playHuman()
     
 # playModel()
-# trainNewModel()
-humanvBot()
+trainNewModel()
+# humanvBot()

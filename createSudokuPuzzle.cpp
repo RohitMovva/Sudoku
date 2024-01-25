@@ -6,6 +6,11 @@
 #include <unordered_map>
 #include <chrono>
 #include "createSudokuPuzzle.h"
+#include <pybind11/pybind11.h> // shut up vscode nobody likes you
+#include <pybind11/stl.h>
+#include <pybind11/complex.h>
+#include <pybind11/functional.h>
+#include <pybind11/chrono.h>
 using namespace std;
  
 // struct ListNode {
@@ -342,6 +347,13 @@ vector<vector<int>> get_puzzle(int size, int difficulty){
     return puzzle_board;
 }
 
+namespace py = pybind11;
+
+PYBIND11_MODULE(sudoku, m) {
+    m.def("get_puzzle", &get_puzzle, "A function which generates a Sudoku puzzle");
+}
+
 // int main(){
 //     get_puzzle(36, 1e9);
 // }
+
